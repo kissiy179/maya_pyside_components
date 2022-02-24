@@ -6,7 +6,7 @@ import maya.cmds as cmds
 from .. import util
 from pyside_components.widgets import path_edit
 
-class FilePathInMayaProjectEdit(path_edit.FilePathEdit):
+class FilePathInProjectEdit(path_edit.FilePathEdit):
     '''
     Mayaプロジェクト内の場合相対パスとして記憶するファイルパス用ウィジェット
     '''
@@ -17,19 +17,19 @@ class FilePathInMayaProjectEdit(path_edit.FilePathEdit):
         return text
 
     def row_text(self):
-        return super(FilePathInMayaProjectEdit, self).text()
+        return super(FilePathInProjectEdit, self).text()
 
     def setText(self, text):
         text = util.get_relatvie_path_in_maya_project(text)
-        super(FilePathInMayaProjectEdit, self).setText(text)
+        super(FilePathInProjectEdit, self).setText(text)
 
-class DirectoryPathInMayaProjectEdit(FilePathInMayaProjectEdit):
+class DirectoryPathInProjectEdit(FilePathInProjectEdit):
     '''
     Mayaプロジェクト内の場合相対パスとして記憶するファイルパス用ディレクトリパス用ウィジェット
     '''
     open_method = path_edit.getExistingDirectory
 
-class MayaSceneEdit(FilePathInMayaProjectEdit):
+class MayaSceneEdit(FilePathInProjectEdit):
     '''
     Mayaシーンパス用ウィジェット
     .ma, .mb, .fbxが有効
