@@ -11,6 +11,10 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
     Mayaプロジェクト内の場合相対パスとして記憶するファイルパス用ウィジェット
     '''
 
+    def __init__(self, *args, **kwargs):
+        super(FilePathInProjectEdit, self).__init__(*args, **kwargs)
+        self.editingFinished.connect(self.resolve_path)
+
     def text(self):
         text = self.line_edit.text()
         text = util.get_absolute_path_in_maya_project(text)
@@ -18,6 +22,11 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
 
     def row_text(self):
         return super(FilePathInProjectEdit, self).text()
+
+    def resolve_path(self):
+        text = self.row_text()
+        text = util.get_relatvie_path_in_maya_project(text)
+        super(FilePathInProjectEdit, self).setText(text)
 
     def setText(self, text):
         text = util.get_relatvie_path_in_maya_project(text)
