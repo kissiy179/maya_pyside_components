@@ -10,10 +10,11 @@ def get_relatvie_path_in_maya_project(abs_path):
 
     for i in range(path_elems_len -1):
         path_elems_ = path_elems[path_elems_len-(i+1):]
-        path_elems_.insert(0, pj_path)
-        rel_path = os.path.join(*path_elems_)
+        # path_elems_.insert(0, pj_path)
+        path_in_pj = os.path.join(pj_path, *path_elems_)
         
-        if os.path.exists(rel_path):
+        if os.path.exists(path_in_pj):
+            rel_path = os.path.join(*path_elems_)
             rel_path = rel_path.replace(os.sep, os.altsep)
             return rel_path
 
