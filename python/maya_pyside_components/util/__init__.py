@@ -21,6 +21,9 @@ def get_relatvie_path_in_maya_project(abs_path):
     return abs_path.replace(os.sep, os.altsep)
 
 def get_absolute_path_in_maya_project(rel_path):
+    if not rel_path:
+        return rel_path
+
     rel_path = get_relatvie_path_in_maya_project(rel_path)
     pj_path = cmds.workspace(query=True, rootDirectory=True)
     abs_path = os.path.join(pj_path, rel_path)
