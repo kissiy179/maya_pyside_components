@@ -23,14 +23,20 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
     def row_text(self):
         return super(FilePathInProjectEdit, self).text()
 
-    def resolve_path(self):
-        text = self.row_text()
+    def resolve_path(self, text=''):
+        text = text if text else self.row_text()
         text = util.get_relatvie_path_in_maya_project(text)
         super(FilePathInProjectEdit, self).setText(text)
 
+        abs_path = util.get_absolute_path_in_maya_project(text)
+        if os.path.exists(abs_path):
+            self.line_edit.setStyleSheet('color: lightgray;')
+
+        else:
+            self.line_edit.setStyleSheet('color: indianred;')
+
     def setText(self, text):
-        text = util.get_relatvie_path_in_maya_project(text)
-        super(FilePathInProjectEdit, self).setText(text)
+        self.resolve_path(text)
 
 class DirectoryPathInProjectEdit(FilePathInProjectEdit):
     '''
