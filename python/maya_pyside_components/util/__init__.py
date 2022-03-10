@@ -44,7 +44,7 @@ def get_relatvie_path_in_maya_project(abs_path, force=False):
 
     return abs_path.replace(os.sep, os.altsep)
 
-def get_absolute_path_in_maya_project(rel_path):
+def get_absolute_path_in_maya_project(rel_path, include_project_sep=False):
     # プロジェクト区切り文字(//)からはじまらない場合そのまま返す
     if not rel_path.startswith('//'):
         return rel_path
@@ -54,7 +54,7 @@ def get_absolute_path_in_maya_project(rel_path):
     rel_path = get_relatvie_path_in_maya_project(rel_path)
     rel_path = rel_path.strip('/')
     pj_path = cmds.workspace(query=True, rootDirectory=True)
-    abs_path = '/'.join([pj_path, rel_path])
+    abs_path = ('/' if include_project_sep else '').join([pj_path, rel_path])
     abs_path = abs_path.replace(os.sep, os.altsep)
     abs_path = abs_path.strip('/')
     return abs_path

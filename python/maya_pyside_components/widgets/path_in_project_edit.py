@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+from xml.etree.ElementInclude import include
 from mayaqt import QtWidgets, QtCore
 import qtawesome as qta
 import maya.cmds as cmds
@@ -17,7 +18,7 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
 
     def text(self):
         text = self.line_edit.text()
-        text = util.get_absolute_path_in_maya_project(text)
+        text = util.get_absolute_path_in_maya_project(text, include_project_sep=False)
         return text
 
     def raw_text(self):
