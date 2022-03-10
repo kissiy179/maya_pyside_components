@@ -20,12 +20,12 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
         text = util.get_absolute_path_in_maya_project(text)
         return text
 
-    def row_text(self):
+    def raw_text(self):
         return super(FilePathInProjectEdit, self).text()
 
     def resolve_path(self, text=''):
-        text = text if text else self.row_text()
-        text = util.get_relatvie_path_in_maya_project(text)
+        text = text if text else self.raw_text()
+        text = util.get_relatvie_path_in_maya_project(text, force=False)
         super(FilePathInProjectEdit, self).setText(text)
 
         # abs_path = util.get_absolute_path_in_maya_project(text)
