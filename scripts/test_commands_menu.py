@@ -1,7 +1,6 @@
 #encoding: utf-8
 
 import maya.cmds as cmds
-import maya.cmds as cmds
 
 def show_message(message):
     print(message)
@@ -13,7 +12,6 @@ def show_message(message):
 
 def create_menu():
     cmds.setParent('MayaWindow')
-    cmds.menu(label='Test Commands', tearOff=True)
-    cmds.menuItem(label='Test Command 1', command='import test_commands_menu; test_commands_menu.show_message("Test Command 1")')
-    cmds.menuItem(label='Test Command 2', command='import test_commands_menu; test_commands_menu.show_message("Test Command 2")')
+    cmds.menu(label='maya_pyside_components', tearOff=True)
+    cmds.menuItem(label='Test Window', command='import maya_pyside_components.cmds as pyside_cmds; reload(pyside_cmds); pyside_cmds.show_test_window()')
 
