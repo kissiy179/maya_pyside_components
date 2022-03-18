@@ -24,9 +24,9 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
         self.resolve_path()
         super(FilePathInProjectEdit, self).mouseReleaseEvent(event)
 
-    def text(self):
+    def text(self, include_project_sep=True):
         text = self.line_edit.text()
-        text = util.get_absolute_path_in_maya_project(text, include_project_sep=True)
+        text = util.get_absolute_path_in_maya_project(text, include_project_sep=include_project_sep)
         return text
 
     def raw_text(self):
