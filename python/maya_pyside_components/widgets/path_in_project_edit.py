@@ -54,7 +54,8 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
         if self.__raw_mode:
             text = text
             bg_color = 'teal' if is_exists else ('indianred')
-            line_eidt_style += 'background-color: {};'.format(bg_color)
+            color = 'lightgray'
+            line_eidt_style += 'background-color: {}; color: {}'.format(bg_color, color)
 
         self.line_edit.setStyleSheet(line_eidt_style)
 
