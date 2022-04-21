@@ -35,18 +35,22 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
     def resolve_path(self, text=''):
         text = text if text else self.raw_text()
         text = util.get_relatvie_path_in_maya_project(text, force=False)
+        abs_path = util.get_absolute_path_in_maya_project(text, include_project_sep=True)
+        line_eidt_style = ''
+        is_exists = os.path.exists(abs_path)
 
         if self.__raw_mode:
-            text = util.get_absolute_path_in_maya_project(text, include_project_sep=True)
+            text = abs_path
+            bg_color = 'teal' if is_exists else ('indianred')
+            line_eidt_style += 'background-color: {};'.format(bg_color)
 
+        else:
+            if not is_exists:
+                color = 'indianred'
+                line_eidt_style += 'color: {};'.format(color)
+
+        self.line_edit.setStyleSheet(line_eidt_style)
         super(FilePathInProjectEdit, self).setText(text)
-
-        # abs_path = util.get_absolute_path_in_maya_project(text)
-        # if os.path.exists(abs_path):
-        #     self.line_edit.setStyleSheet('color: lightgray;')
-
-        # else:
-        #     self.line_edit.setStyleSheet('color: indianred;')
 
     def setText(self, text):
         self.resolve_path(text)
