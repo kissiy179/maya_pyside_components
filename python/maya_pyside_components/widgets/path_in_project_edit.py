@@ -45,21 +45,16 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
     def setText(self, text):
         self.resolve_path(text)
 
-    def setStyleSheet(self):
-        super(FilePathInProjectEdit, self).setStyleSheet()
+    def set_stylesheet(self):
+        stylesheets = super(FilePathInProjectEdit, self).set_stylesheet()
         text = self.text()
-        line_eidt_style = ''
+        line_eidt_style = stylesheets.get(self.line_edit)
         is_exists = os.path.exists(text)
 
         if self.__raw_mode:
             text = text
             bg_color = 'teal' if is_exists else ('indianred')
             line_eidt_style += 'background-color: {};'.format(bg_color)
-
-        else:
-            if not is_exists:
-                color = 'indianred'
-                line_eidt_style += 'color: {};'.format(color)
 
         self.line_edit.setStyleSheet(line_eidt_style)
 
