@@ -22,6 +22,7 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
             self.__raw_mode = not self.__raw_mode
 
         self.resolve_path()
+        self.setStyleSheet()
         super(FilePathInProjectEdit, self).mouseReleaseEvent(event)
 
     def text(self, include_project_sep=True):
@@ -35,12 +36,23 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
     def resolve_path(self, text=''):
         text = text if text else self.raw_text()
         text = util.get_relatvie_path_in_maya_project(text, force=False)
-        abs_path = util.get_absolute_path_in_maya_project(text, include_project_sep=True)
-        line_eidt_style = ''
-        is_exists = os.path.exists(abs_path)
 
         if self.__raw_mode:
-            text = abs_path
+            text = util.get_absolute_path_in_maya_project(text, include_project_sep=True)
+
+        super(FilePathInProjectEdit, self).setText(text)
+
+    def setText(self, text):
+        self.resolve_path(text)
+
+    def setStyleSheet(self):
+        super(FilePathInProjectEdit, self).setStyleSheet()
+        text = self.text()
+        line_eidt_style = ''
+        is_exists = os.path.exists(text)
+
+        if self.__raw_mode:
+            text = text
             bg_color = 'teal' if is_exists else ('indianred')
             line_eidt_style += 'background-color: {};'.format(bg_color)
 
@@ -50,10 +62,6 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
                 line_eidt_style += 'color: {};'.format(color)
 
         self.line_edit.setStyleSheet(line_eidt_style)
-        super(FilePathInProjectEdit, self).setText(text)
-
-    def setText(self, text):
-        self.resolve_path(text)
 
 class DirectoryPathInProjectEdit(FilePathInProjectEdit):
     '''
