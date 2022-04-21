@@ -22,7 +22,7 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
             self.__raw_mode = not self.__raw_mode
 
         self.resolve_path()
-        self.setStyleSheet()
+        self.set_stylesheet()
         super(FilePathInProjectEdit, self).mouseReleaseEvent(event)
 
     def text(self, include_project_sep=True):
