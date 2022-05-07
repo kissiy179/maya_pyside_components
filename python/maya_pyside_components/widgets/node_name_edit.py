@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re
 from functools import partial
 import pymel.core as pm
@@ -5,6 +6,10 @@ from mayaqt import maya_win, maya_base_mixin, QtCore, QtWidgets, QtGui
 import qtawesome as qta
 
 NODE_TYPE_PATTERN = re.compile('^(?P<node_type>\w+)(?P<exact>\+?)$')
+ICON_TABLE = {
+    re.compile(r'^\w*[lL]ight$'): 'ambientLight',
+    re.compile(r'^\w*[sS]hape$'): 'mesh',
+}
 
 class NodesByTypeMenu(QtWidgets.QMenu):
        
@@ -40,11 +45,22 @@ class NodeNameEdit(QtWidgets.QWidget):
         self.node_type = node_type
         self.exact = True
         
+        # ノードタイプを厳格に判定するかどうかをnode_typeから決定
+        # <nodeType> = 指定したノードタイプのノードのみを判定
+        # <nodeType>+ = 指定したノードタイプを継承したノードを判定
         m = NODE_TYPE_PATTERN.match(self.node_type)
         
         if m and m.group('exact'):
             self.node_type = m.group('node_type')
             self.exact = False
+
+        # ボタン画像を取得
+        if not button_img:
+            for ptn, img in ICON_TABLE.items():
+                if not ptn.match(self.node_type):
+                    continue
+
+                button_img = img
 
         self.button_img = ':/out_{}.png'.format(button_img) if button_img else ':/out_{}.png'.format(self.node_type)
         self.init_ui()
