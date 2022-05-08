@@ -41,6 +41,8 @@ class NodesByTypeMenu(QtWidgets.QMenu):
             action.setEnabled(False)
 
 class NodeNameEdit(QtWidgets.QWidget):
+
+    textChanged = QtCore.Signal(str)
     
     def __init__(self, node_type, button_img='', parent=None):
         super(NodeNameEdit, self).__init__(parent)
@@ -85,6 +87,7 @@ class NodeNameEdit(QtWidgets.QWidget):
         #icon = QtGui.QIcon(self.button_img)
         #self.line_edit.addAction(icon, QtWidgets.QLineEdit.LeadingPosition);
         self.line_edit.textChanged.connect(self.set_stylesheet)
+        self.line_edit.textChagned.connect(self.textChanged)
         node_name = self.line_edit.text()
         hlo.addWidget(self.line_edit)
         
