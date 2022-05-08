@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
+import os
 import re
 from functools import partial
+import maya.cmds as cmds
 import pymel.core as pm
 from mayaqt import maya_win, maya_base_mixin, QtCore, QtWidgets, QtGui
 import qtawesome as qta
 
 NODE_TYPE_PATTERN = re.compile('^(?P<node_type>\w+)(?P<exact>\+?)$')
 ICON_TABLE = {
-    re.compile(r'^\w*[lL]ight$'): 'ambientLight',
-    re.compile(r'^\w*[sS]hape$'): 'mesh',
+    re.compile(r'^\w*[lL]ight$'): 'out_ambientLight.png',
+    re.compile(r'^\w*[sS]hape$'): 'out_mesh.png',
 }
 
 class NodesByTypeMenu(QtWidgets.QMenu):
@@ -55,14 +57,20 @@ class NodeNameEdit(QtWidgets.QWidget):
             self.exact = False
 
         # ボタン画像を取得
-        if not button_img:
+        icons = cmds.resourceManager(nameFilter='*.png')
+        button_img = button_img if button_img else self.node_type
+        button_img = 'out_{}.png'.format(button_img)
+
+        if not button_img in icons:
             for ptn, img in ICON_TABLE.items():
                 if not ptn.match(self.node_type):
                     continue
 
                 button_img = img
 
-        self.button_img = ':/out_{}.png'.format(button_img) if button_img else ':/out_{}.png'.format(self.node_type)
+        self.button_img = ':/{}'.format(button_img)
+
+        # UI初期化
         self.init_ui()
         
     def init_ui(self):
