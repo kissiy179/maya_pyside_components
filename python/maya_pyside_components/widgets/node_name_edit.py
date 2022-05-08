@@ -87,7 +87,7 @@ class NodeNameEdit(QtWidgets.QWidget):
         #icon = QtGui.QIcon(self.button_img)
         #self.line_edit.addAction(icon, QtWidgets.QLineEdit.LeadingPosition);
         self.line_edit.textChanged.connect(self.set_stylesheet)
-        self.line_edit.textChagned.connect(self.textChanged)
+        self.line_edit.textChanged.connect(self.textChanged)
         node_name = self.line_edit.text()
         hlo.addWidget(self.line_edit)
         
