@@ -96,8 +96,8 @@ class NodeNameEdit(QtWidgets.QWidget):
         hlo.addWidget(self.button)
         self.set_stylesheet()
         
-    def getText(self):
-        return self.line_edit.getText()
+    def text(self):
+        return self.line_edit.text()
 
     def setText(self, txt):
         self.line_edit.setText(txt)
