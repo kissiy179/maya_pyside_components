@@ -96,13 +96,19 @@ class NodeNameEdit(QtWidgets.QWidget):
         hlo.addWidget(self.button)
         self.set_stylesheet()
         
+    def getText(self):
+        return self.line_edit.getText()
+
+    def setText(self, txt):
+        self.line_edit.setText(txt)
+            
     def show_menu(self):
         menu = NodesByTypeMenu(self.node_type, self.exact)
         menu.triggered.connect(self.set_text)
         menu.exec_(QtGui.QCursor.pos())
         
     def set_text(self, action):
-        self.line_edit.setText(action.text())
+        self.setText(action.text())
         
     def set_stylesheet(self):
         items = pm.ls(exactType=self.node_type) if self.exact else pm.ls(type=self.node_type)
@@ -115,7 +121,7 @@ class NodeNameEdit(QtWidgets.QWidget):
             self.line_edit.setStyleSheet('')
             
         self.button.setStyleSheet('background-color: transparent; border-style: solid; border-width:0px;')
-            
+
 class TestWindow(maya_base_mixin, QtWidgets.QWidget):    
     
     def __init__(self, *args, **kwargs):
