@@ -102,9 +102,9 @@ class NodeNameEdit(QtWidgets.QWidget):
     def text(self):
         return self.line_edit.text()
 
-    def setText(self, txt):
-        self.line_edit.setText(txt)
-            
+    def setText(self, text):
+        self.line_edit.setText(str(text))
+
     def show_menu(self):
         menu = NodesByTypeMenu(self.node_type, self.exact)
         menu.triggered.connect(self.set_text)
