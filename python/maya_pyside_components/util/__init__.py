@@ -46,7 +46,7 @@ def get_relatvie_path_in_maya_project(abs_path, force=False):
 
 def get_absolute_path_in_maya_project(rel_path, include_project_sep=False):
     # プロジェクト区切り文字(//)からはじまらない場合そのまま返す
-    if not rel_path.startswith('//'):
+    if not '//' in rel_path:
         return rel_path
 
     # プロジェクトパスと連結して返す
