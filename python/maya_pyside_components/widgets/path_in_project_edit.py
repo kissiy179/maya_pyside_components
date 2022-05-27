@@ -12,9 +12,10 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
     Mayaプロジェクト内の場合相対パスとして記憶するファイルパス用ウィジェット
     '''
 
+    __raw_mode = None
+
     def __init__(self, *args, **kwargs):
         super(FilePathInProjectEdit, self).__init__(*args, **kwargs)
-        self.__raw_mode = False
         self.editingFinished.connect(self.resolve_path)
 
     def mouseReleaseEvent(self, event):
