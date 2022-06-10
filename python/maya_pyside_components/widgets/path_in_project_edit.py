@@ -16,13 +16,13 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
 
     def __init__(self, *args, **kwargs):
         super(FilePathInProjectEdit, self).__init__(*args, **kwargs)
-        self.editingFinished.connect(self.resolve_path)
+        # self.editingFinished.connect(self.resolve_text)
 
     def mouseReleaseEvent(self, event):
         if event.button() == QtCore.Qt.MidButton:
             self.__raw_mode = not self.__raw_mode
 
-        self.resolve_path()
+        self.resolve_text()
         self.set_stylesheet()
         super(FilePathInProjectEdit, self).mouseReleaseEvent(event)
 
@@ -34,17 +34,19 @@ class FilePathInProjectEdit(path_edit.FilePathEdit):
     def raw_text(self):
         return super(FilePathInProjectEdit, self).text()
 
-    def resolve_path(self, text=''):
+    def resolve_text(self, text=''):
         text = text if text else self.raw_text()
-        text = util.get_relatvie_path_in_maya_project(text, force=False)
 
         if self.__raw_mode:
-            text = util.get_absolute_path_in_maya_project(text, include_project_sep=True)
+            text = util.get_absolute_path_in_maya_project(text, force=True, include_project_sep=True)
+
+        else:
+            text = util.get_relatvie_path_in_maya_project(text, force=True)
 
         super(FilePathInProjectEdit, self).setText(text)
 
     def setText(self, text):
-        self.resolve_path(text)
+        self.resolve_text(text)
 
     def set_stylesheet(self):
         stylesheets = super(FilePathInProjectEdit, self).set_stylesheet()
