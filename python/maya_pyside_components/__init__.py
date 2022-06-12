@@ -1,2 +1,2 @@
 import util; reload(util)
-import widgets; relaod(widgets)
+import widgets; reload(widgets)
