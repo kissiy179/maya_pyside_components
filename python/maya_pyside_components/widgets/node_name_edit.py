@@ -3,6 +3,7 @@ import os
 import re
 from functools import partial
 import maya.cmds as cmds
+import maya.mel as mel
 import pymel.core as pm
 from mayaqt import maya_win, maya_base_mixin, QtCore, QtWidgets, QtGui
 import qtawesome as qta
@@ -22,7 +23,7 @@ class NodesByTypeMenu(QtWidgets.QMenu):
         self.exact = exact
         self.init_actions()
         
-    def init_actions(self, node_type='', exact=None):
+    def init_actions(self, node_type='', exact=None, set_is_in_outliner=True):
         node_type = node_type if node_type else self.node_type
         exact = exact if exact is not None else self.exact
         self.clear()
@@ -31,8 +32,15 @@ class NodesByTypeMenu(QtWidgets.QMenu):
                     
         if items:
             for item in items:
+                # オブジェクトセットの場合アウトライナに表示されるもののみに絞る
+                if set_is_in_outliner and item.nodeType() == 'objectSet':
+                    is_in_outliner = bool(mel.eval('setFilterScript {}'.format(item.name())))
+
+                    if not is_in_outliner:
+                        continue
+
                 name = item.name()
-                nodeName = item.nodeName()
+                # nodeName = item.nodeName()
                 node_type = item.nodeType()
                 pixmap = QtGui.QPixmap(':/out_{}.png'.format(node_type))
                 action = self.addAction(pixmap, name, parent=self)
