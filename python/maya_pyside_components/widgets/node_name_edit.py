@@ -8,6 +8,7 @@ from mayaqt import maya_win, maya_base_mixin, QtCore, QtWidgets, QtGui
 import qtawesome as qta
 
 NODE_TYPE_PATTERN = re.compile('^(?P<node_type>\w+)(?P<exact>\+?)$')
+MAYA_ICONS = cmds.resourceManager(nameFilter='*.png')
 ICON_TABLE = {
     re.compile(r'^\w*[lL]ight$'): 'out_ambientLight.png',
     re.compile(r'^\w*[sS]hape$'): 'out_mesh.png',
@@ -59,11 +60,10 @@ class NodeNameEdit(QtWidgets.QWidget):
             self.exact = False
 
         # ボタン画像を取得
-        icons = cmds.resourceManager(nameFilter='*.png')
         button_img = button_img if button_img else self.node_type
         button_img = 'out_{}.png'.format(button_img)
 
-        if not button_img in icons:
+        if not button_img in MAYA_ICONS:
             for ptn, img in ICON_TABLE.items():
                 if not ptn.match(self.node_type):
                     continue
