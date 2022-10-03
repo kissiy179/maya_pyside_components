@@ -52,6 +52,7 @@ class NodesByTypeMenu(QtWidgets.QMenu):
 class NodeNameEdit(QtWidgets.QWidget):
 
     textChanged = QtCore.Signal(str)
+    textEdited = QtCore.Signal(str)
     editingFinished = QtCore.Signal()
     
     def __init__(self, node_type, button_img='', parent=None):
@@ -97,6 +98,7 @@ class NodeNameEdit(QtWidgets.QWidget):
         #self.line_edit.addAction(icon, QtWidgets.QLineEdit.LeadingPosition);
         self.line_edit.textChanged.connect(self.set_stylesheet)
         self.line_edit.textChanged.connect(self.textChanged)
+        self.line_edit.textEdited.connect(self.textEdited)
         self.line_edit.editingFinished.connect(self.editingFinished)
         node_name = self.line_edit.text()
         hlo.addWidget(self.line_edit)
@@ -108,12 +110,18 @@ class NodeNameEdit(QtWidgets.QWidget):
         self.button.clicked.connect(self.show_menu)
         hlo.addWidget(self.button)
         self.set_stylesheet()
+
+        # Connect signals
+        self.line_edit.editingFinished.connect(self.button.setFocus)
         
     def text(self):
         return self.line_edit.text()
 
     def setText(self, text):
         self.line_edit.setText(str(text))
+        self.line_edit.editingFinished.emit()
+        self.line_edit.clearFocus()
+        print('settext')
 
     def show_menu(self):
         menu = NodesByTypeMenu(self.node_type, self.exact)
