@@ -121,7 +121,6 @@ class NodeNameEdit(QtWidgets.QWidget):
         self.line_edit.setText(str(text))
         self.line_edit.editingFinished.emit()
         self.line_edit.clearFocus()
-        print('settext')
 
     def show_menu(self):
         menu = NodesByTypeMenu(self.node_type, self.exact)
